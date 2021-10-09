@@ -47,7 +47,9 @@ Each technology stack will have its own branch.
 * U3
     * User.email
     * User.password
-* U4: Book
+* U4
+    * Book
+    * User.interests
 * U5
     * Book.title
     * Book.author
@@ -89,8 +91,83 @@ Each technology stack will have its own branch.
     * User.lastName
 * A7: User
 * A8
-    * ErrorMessage
+    * InboxMessage
     * Might make more sense to use a different approach than saving the errors to the DB
 * A9
     * InboxMessage.text
     * InboxMessage.User
+
+### API Functions
+
+#### Correspondence with the U User Stories
+* U1: registerUser
+* U2: login
+* U3: renewPassword
+* U4
+    * Book.getMany()
+        * default: sort by time, descending
+        * default: if logged in, filter by User.interests
+* U5
+    * Book.getMany({
+        query: {
+            title
+            author
+            category
+            description
+        },
+        sort: {
+            title
+            author
+            price
+        }
+    })
+* U6
+    * Book.getOne(id)
+    * Book.getReviews(bookId)
+* U7: N/A (frontend only)
+* U8
+    * Order.create(Order)
+    * Order.update(orderId, PartialOrder)
+* U9
+    * Review.create(bookId, userId, Review)
+* U10
+    * InboxMessage.create(InboxMessage)
+
+#### Correspondence with the A User Stories
+* A1
+    * User.create(User) (this is for admin users primarily)
+    * User.login(username, password)
+    * User.renewPassword(email)
+* A2
+    * Book.create(Book)
+* A3: 
+    * Book.update(bookId, PartialBook)
+* A4
+    * Book.delete(bookId)
+* A5 
+    * User.getMany()
+        * default: sort by lastName, ascending
+* A6
+    * User.getMany({
+        query: {
+            id
+            firstName
+            lastName
+        }
+        sort {
+            lastName
+        }
+    })
+* A7
+    * User.delete(userId)
+* A8
+    * If self-created
+        * InboxMessage.create(InboxMessage)
+        * InboxMessage.getOne()
+        * InboxMessage.getMany()
+    * If using an external package or service
+        * Module for handling a third-party package or service
+* A9
+    * InboxMessage.create(InboxMessage)
+    * InboxMessage.markAsRead(id)
+    * InboxMessage.delete(id)
